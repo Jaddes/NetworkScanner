@@ -54,4 +54,12 @@ The **Internet Control Message Protocol (ICMP)** is a fundamental protocol in th
 - Vulnerable to misuse in attacks (e.g., Ping Flood in DDoS scenarios).
 - Often disabled on networks for security reasons, limiting its utility.
 
+## Implementation Details
+
+The tool executes the `ping` command using Python's `subprocess` module. This ensures:
+- Secure execution of system commands.
+- Capturing and analyzing the output of the `ping` command for better error handling.
+- Automatic detection of the operating system to adjust command parameters (`-c` for Linux/Unix and `-n` for Windows).
+
+
 For more information, see the [README.md](README.md) file.

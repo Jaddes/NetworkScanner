@@ -9,6 +9,7 @@
 - **ICMP Ping Utility**:
   - Test reachability of devices on the network.
   - Measure **latency (RTT)** and detect **packet loss**.
+  - Improved execution using `subprocess` for secure and efficient command handling.
 
 - **Cross-Platform Support**:
   - Compatible with Linux/Unix and Windows systems.

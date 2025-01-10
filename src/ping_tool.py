@@ -1,5 +1,5 @@
-import platform
-import subprocess
+import platform # Modul for detection Operating System
+import subprocess # Modul for executing the system commands
 
 
 # Function for pinging a single IP address
@@ -15,6 +15,7 @@ def ping(ip_address):
         None: Prints a message indicating whether the IP adress is available or not.
 
     Notes:
+        - Automatically detects the operating system and adjust the ping command
         - On Linux/Unix systems, the 'ping -c 1' command send one ICMP request.
         - On Windows systems, use 'ping -n 1' instead.
     """
@@ -26,7 +27,7 @@ def ping(ip_address):
     command = ['ping',param,'1',ip_address]
 
     try:
-        #Execute the ping command
+        #Execute the ping command and capture the output
         output = subprocess.check_output(command, universal_newlines=True)
         print(f"{ip_address} is available")
     except subprocess.CalledProcessError:
