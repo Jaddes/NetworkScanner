@@ -33,5 +33,10 @@ def ping(ip_address):
     except subprocess.CalledProcessError:
         print(f"{ip_address} is not available")
 
-# Test function with a well-known IP address
-ping("8.8.8.8") # Google DNS serverdd
+if __name__ == "__main__":
+    # Prompt the user for an IP address
+    user_input = input("Enter an IP address to ping (default: 8.8.8.8): ").strip()
+    ip_address = user_input if user_input else "8.8.8.8"
+
+    # Test function with a well-known IP address
+    ping(ip_address) # Google DNS serverdd

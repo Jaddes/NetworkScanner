@@ -10,12 +10,22 @@
   - Test reachability of devices on the network.
   - Measure **latency (RTT)** and detect **packet loss**.
   - Improved execution using `subprocess` for secure and efficient command handling.
+  - **User Input Support**: Allows the user to input a custom IP address or use the default value.
+
 
 - **Cross-Platform Support**:
   - Compatible with Linux/Unix and Windows systems.
 
+
 - **Customizable**:
   - Easily extend the functionality to include other network protocols and features.
+
+## Usage
+
+Run the script and follow the prompt to enter an IP address. If no address is provided, the tool will default to `8.8.8.8`:
+
+```bash
+python ping_tool.py
 
 ## Getting Started
 

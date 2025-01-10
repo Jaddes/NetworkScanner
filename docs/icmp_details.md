@@ -60,6 +60,9 @@ The tool executes the `ping` command using Python's `subprocess` module. This en
 - Secure execution of system commands.
 - Capturing and analyzing the output of the `ping` command for better error handling.
 - Automatic detection of the operating system to adjust command parameters (`-c` for Linux/Unix and `-n` for Windows).
+- **User Input Feature**:
+  - The tool prompts the user to enter an IP address to ping.
+  - If no input is provided, the tool defaults to `8.8.8.8`.
 
 
 For more information, see the [README.md](README.md) file.
