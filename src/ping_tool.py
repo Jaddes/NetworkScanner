@@ -1,4 +1,6 @@
-import os # Importing a modul for working with systems commands
+import platform
+import subprocess
+
 
 # Function for pinging a single IP address
 def ping(ip_address):
@@ -16,17 +18,19 @@ def ping(ip_address):
         - On Linux/Unix systems, the 'ping -c 1' command send one ICMP request.
         - On Windows systems, use 'ping -n 1' instead.
     """
+    
+    # Determine the parameter based on the OS
+    param = '-n' if platform.system().lower()=='windows' else '-c'
 
+    # Build the ping command
+    command = ['ping',param,'1',ip_address]
 
-    # Executing the system command for ping
-    response = os.system(f"ping -c 1 {ip_address}") # For Linux/Unix systems
-    # response = os.system(f"ping -n 1 {ip_adress}") # For Windows systems
-
-    # Checking if the device is available
-    if response == 0:
+    try:
+        #Execute the ping command
+        output = subprocess.check_output(command, universal_newlines=True)
         print(f"{ip_address} is available")
-    else:
+    except subprocess.CalledProcessError:
         print(f"{ip_address} is not available")
 
 # Test function with a well-known IP address
-ping("8.8.8.8") # Google DNS server
+ping("8.8.8.8") # Google DNS serverdd
