@@ -63,6 +63,9 @@ The tool executes the `ping` command using Python's `subprocess` module. This en
 - **User Input Feature**:
   - The tool prompts the user to enter an IP address to ping.
   - If no input is provided, the tool defaults to `8.8.8.8`.
+- **Enhanced Output**:
+  - Provides detailed statistics, including RTT, Packet Loss, Transmitted/Received packets, and TTL.
+
 
 
 For more information, see the [README.md](README.md) file.

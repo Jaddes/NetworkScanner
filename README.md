@@ -9,6 +9,7 @@
 - **ICMP Ping Utility**:
   - Test reachability of devices on the network.
   - Measure **latency (RTT)** and detect **packet loss**.
+  - Gather additional details such as **packets transmitted**, **packets received**, and **TTL (Time To Live)**.
   - Improved execution using `subprocess` for secure and efficient command handling.
   - **User Input Support**: Allows the user to input a custom IP address or use the default value.
 
