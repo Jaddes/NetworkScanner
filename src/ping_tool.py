@@ -3,7 +3,7 @@ import subprocess # Modul for executing the system commands
 from parse_ping_tool import parse_ping_output # Implementing function for parsing
 
 # Function for pinging a single IP address
-def ping(ip_address):
+def ping(ip_address, count):
     """
 
     Pings a given IP address to check its availability and extracts detailed information.
@@ -16,15 +16,15 @@ def ping(ip_address):
 
     Notes:
         - Automatically detects the operating system and adjust the ping command
-        - On Linux/Unix systems, the 'ping -c 1' command send one ICMP request.
-        - On Windows systems, use 'ping -n 1' instead.
+        - On Linux/Unix systems, the 'ping -c <count>' command send one ICMP request.
+        - On Windows systems, use 'ping -n <count>' instead.
     """
     
     # Determine the parameter based on the OS
     param = '-n' if platform.system().lower()=='windows' else '-c'
 
     # Build the ping command
-    command = ['ping',param,'1',ip_address]
+    command = ['ping',param,str(count),ip_address]
 
     try:
         #Execute the ping command and capture the output
@@ -34,11 +34,13 @@ def ping(ip_address):
         stats = parse_ping_output(output)
 
         print(f"\nPing Results for {ip_address}:")
-        print(f"  - RTT: {stats.get('rtt', 'N/A')}")
+        print(f"  - RTT (Min/Avg/Max): {stats.get('rtt_min', 'N/A')} / {stats.get('rtt_avg', 'N/A')} / {stats.get('rtt_max', 'N/A')}")
+        print(f"  - RTT Values (All): {', '.join(stats.get('rtt_all', []))}")
         print(f"  - Packet Loss: {stats.get('packet_loss', 'N/A')}")
         print(f"  - Packets Transmitted: {stats.get('packets_transmitted', 'N/A')}")
         print(f"  - Packets Received: {stats.get('packets_received', 'N/A')}")
-        print(f"  - TTL: {stats.get('ttl', 'N/A')}")  
+        print(f"  - TTL (Final): {stats.get('ttl_final', 'N/A')}")
+        print(f"  - Additional TTL Info: {stats.get('ttl_info', 'None')}")
 
     except subprocess.CalledProcessError as e:
         print(f"{ip_address} is not available")
@@ -49,5 +51,9 @@ if __name__ == "__main__":
     user_input = input("Enter an IP address to ping (default: 8.8.8.8): ").strip()
     ip_address = user_input if user_input else "8.8.8.8"
 
+    # Prompt the user for number of packets
+    user_input_count = input("Enter the number of packets to send (default: 1): ").strip()
+    count = int(user_input_count) if user_input_count.isdigit() else 1   
+
     # Test function with a well-known IP address
-    ping(ip_address) # Google DNS serverdd
+    ping(ip_address, count) # Google DNS serverdd

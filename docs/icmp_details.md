@@ -44,6 +44,22 @@ The **Internet Control Message Protocol (ICMP)** is a fundamental protocol in th
 | 8    | 0    | Echo Request                        | Requests an Echo Reply.         |
 | 11   | 0    | Time Exceeded                       | TTL expired in transit.         |
 
+## Metrics Explained
+
+### **RTT (Round-Trip Time)**
+- **What it is**: RTT measures the total time for a packet to travel from the source to the destination and back.
+- **How it is calculated**:
+  - Extracted from the `time=XX ms` field in the ping command output.
+  - The tool calculates **Min**, **Avg**, and **Max** RTT values across multiple packets.
+- **Example Output**:
+
+### **TTL (Time-To-Live)**
+- **What it is**: TTL limits the number of hops (routers) a packet can traverse before being discarded.
+- **How it works in the tool**:
+- Extracted from the `ttl=XX` field in the ping command output.
+- Calculates how many hops the packet passed based on the initial TTL (64 for Linux/Unix, 128 for Windows).
+- **Example Output**:
+
 ### Advantages of ICMP
 
 - Simple and efficient for basic network diagnostics.

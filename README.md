@@ -16,27 +16,25 @@
 
 - **Cross-Platform Support**:
   - Compatible with Linux/Unix and Windows systems.
+  - Automatically adjusts the `ping` command parameters based on the operating system.
 
 
-- **Customizable**:
-  - Easily extend the functionality to include other network protocols and features.
+- **Detailed Output**:
+  - Displays detailed statistics for each ping, including transmitted and received packets, RTT, and TTL.
+  - Detects and reports when TTL expires in transit.
 
 ## Usage
 
-Run the script and follow the prompt to enter an IP address. If no address is provided, the tool will default to `8.8.8.8`:
+Run the script and follow the prompts to enter:
+1. The IP address you want to ping.
+2. The number of packets you want to send.
 
+### Example Commands
 ```bash
+# Run with default values
 python ping_tool.py
 
-## Getting Started
-
-### Prerequisites
-
-- Python 3.x installed on your system.
-- Basic knowledge of how to use the command line.
-
-### Installation
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/Jaddes/NetworkScanner.git
+# Run with a custom IP address and number of packets
+python ping_tool.py
+Enter an IP address to ping (default: 8.8.8.8): 1.1.1.1
+Enter the number of packets to send (default: 1): 4
