@@ -1,5 +1,6 @@
 import platform # Modul for detection Operating System
 import subprocess # Modul for executing the system commands
+import threading # Parallel execution module
 from parse_ping_tool import parse_ping_output # Implementing function for parsing
 
 # Function for pinging a single IP address
@@ -42,18 +43,41 @@ def ping(ip_address, count):
         print(f"  - TTL (Final): {stats.get('ttl_final', 'N/A')}")
         print(f"  - Additional TTL Info: {stats.get('ttl_info', 'None')}")
 
+        return stats
     except subprocess.CalledProcessError as e:
         print(f"{ip_address} is not available")
-        print(f"Error: {e.output}")            
+        print(f"Error: {e.output}")
+
+def ping_multiple_ips_parallel(ip_list, count=1):
+    """
+    Pings multiple IP addresses in parallel.
+
+    Args:
+        ip_list (list): List of IP addresses to ping.
+        count (int): Number of packets to send for each address.
+
+    Returns:
+        None
+    """
+    threads = []
+    for ip in ip_list:
+        thread = threading.Thread(target=ping, args=(ip.strip(), count))
+        threads.append(thread)
+        thread.start()
+
+    # Wait until it's all over before you continue.
+    for thread in threads:
+        thread.join()
+      
 
 if __name__ == "__main__":
-    # Prompt the user for an IP address
-    user_input = input("Enter an IP address to ping (default: 8.8.8.8): ").strip()
-    ip_address = user_input if user_input else "8.8.8.8"
+    # User input for IP addresses
+    user_input_ips = input("Enter IP addresses to ping (comma-separated, default: 8.8.8.8): ").strip()
+    ip_addresses = user_input_ips.split(',') if user_input_ips else ["8.8.8.8"]
 
-    # Prompt the user for number of packets
+    # User input for number of packets
     user_input_count = input("Enter the number of packets to send (default: 1): ").strip()
-    count = int(user_input_count) if user_input_count.isdigit() else 1   
+    count = int(user_input_count) if user_input_count.isdigit() else 1  
 
-    # Test function with a well-known IP address
-    ping(ip_address, count) # Google DNS serverdd
+    # Ping one or multiple IP addresses
+    ping_multiple_ips_parallel(ip_addresses, count)
