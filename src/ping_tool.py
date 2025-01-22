@@ -1,6 +1,8 @@
 import platform # Modul for detection Operating System
 import subprocess # Modul for executing the system commands
 import threading # Parallel execution module
+import datetime 
+from tabulate import tabulate
 from parse_ping_tool import parse_ping_output # Implementing function for parsing
 
 # Function for pinging a single IP address
@@ -50,7 +52,7 @@ def ping(ip_address, count):
 
 def ping_multiple_ips_parallel(ip_list, count=1):
     """
-    Pings multiple IP addresses in parallel.
+    Pings multiple IP addresses in parallel and logs results.
 
     Args:
         ip_list (list): List of IP addresses to ping.
@@ -60,15 +62,74 @@ def ping_multiple_ips_parallel(ip_list, count=1):
         None
     """
     threads = []
+    results = []
+
+    def ping_and_log(ip):
+        stats = ping(ip.strip(), count)
+        stats["ip"] = ip
+        log_results(ip, stats)
+        results.append(stats)
+
     for ip in ip_list:
-        thread = threading.Thread(target=ping, args=(ip.strip(), count))
+        thread = threading.Thread(target=ping_and_log, args=(ip,))
         threads.append(thread)
         thread.start()
 
-    # Wait until it's all over before you continue.
     for thread in threads:
         thread.join()
-      
+
+    # Display results in a table
+    display_results_in_table(results)
+
+
+def log_results(ip_address, stats, filename="ping_results.log"):
+    """
+    Logs the ping results to a file with a timestamp.
+
+    Args:
+        ip_address (str): The IP address that was pinged.
+        stats (dict): Parsed statistics from the ping command.
+        filename (str): The name of the log file (default: ping_results.log).
+
+    Returns:
+        None
+    """
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    with open(filename, "a") as log_file:
+        log_file.write(f"Timestamp: {timestamp}\n")
+        log_file.write(f"Results for {ip_address}:\n")
+        if "error" in stats:
+            log_file.write(f"  - Error: {stats['error']}\n")
+        else:
+            for key, value in stats.items():
+                log_file.write(f"  - {key}: {value}\n")
+        log_file.write("\n")
+
+def display_results_in_table(results):
+    """
+    Displays ping results in a table format.
+
+    Args:
+        results (list): List of dictionaries containing ping results.
+
+    Returns:
+        None
+    """
+    headers = ["IP Address", "RTT (Min/Avg/Max)", "Packet Loss", "TTL"]
+    table = []
+    for res in results:
+        if "error" in res:
+            table.append([res["ip"], "N/A", "N/A", "N/A"])
+        else:
+            table.append([
+                res["ip"],
+                f"{res['rtt_min']} / {res['rtt_avg']} / {res['rtt_max']}",
+                res["packet_loss"],
+                res["ttl_final"]
+            ])
+    print(tabulate(table, headers=headers, tablefmt="grid"))
+
+    
 
 if __name__ == "__main__":
     # User input for IP addresses

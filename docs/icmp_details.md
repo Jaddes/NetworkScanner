@@ -71,19 +71,24 @@ The **Internet Control Message Protocol (ICMP)** is a fundamental protocol in th
 
 ## Implementation Details
 
+### **How This Tool Uses ICMP**
+1. Executes the `ping` command using Python's `subprocess` module.
+2. Sends ICMP Echo Requests to the specified IP address.
+3. Collects detailed information, including RTT, packet loss, and TTL values.
+
 The tool executes the `ping` command using Python's `subprocess` module. This ensures:
 - Secure execution of system commands.
 - Capturing and analyzing the output of the `ping` command for better error handling.
 - Automatic detection of the operating system to adjust command parameters (`-c` for Linux/Unix and `-n` for Windows).
 
 ### **Enhanced Features**
-- **Ping Multiple IPs**:
-- Users can input multiple IP addresses as a comma-separated list.
-- Each IP address is pinged sequentially, and detailed statistics are displayed for each.
-- **User Input**:
-- Prompts the user to enter an IP address (or addresses) and the number of packets to send.
-- Defaults to `8.8.8.8` and 1 packet if no input is provided.
 
+- **Parallel Execution**:
+- Allows pinging multiple IP addresses in parallel using threading.
+- Significantly reduces the time required for scanning large networks.
+
+- **Logging**:
+- Results are saved in a log file with timestamps for each pinged IP address.
 
 
 For more information, see the [README.md](README.md) file.
