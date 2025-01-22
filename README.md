@@ -10,8 +10,9 @@
   - Test reachability of devices on the network.
   - Measure **latency (RTT)** and detect **packet loss**.
   - Gather additional details such as **packets transmitted**, **packets received**, and **TTL (Time To Live)**.
+  - **Ping Multiple IPs**: Allows the user to ping multiple IP addresses entered as a comma-separated list.
   - Improved execution using `subprocess` for secure and efficient command handling.
-  - **User Input Support**: Allows the user to input a custom IP address or use the default value.
+  - **User Input Support**: Allows the user to input a custom IP address, multiple IPs, or use the default value.
 
 
 - **Cross-Platform Support**:
@@ -26,7 +27,7 @@
 ## Usage
 
 Run the script and follow the prompts to enter:
-1. The IP address you want to ping.
+1. A single IP address or multiple IP addresses (comma-separated).
 2. The number of packets you want to send.
 
 ### Example Commands
@@ -34,7 +35,12 @@ Run the script and follow the prompts to enter:
 # Run with default values
 python ping_tool.py
 
-# Run with a custom IP address and number of packets
+# Run with a single custom IP address and number of packets
 python ping_tool.py
 Enter an IP address to ping (default: 8.8.8.8): 1.1.1.1
 Enter the number of packets to send (default: 1): 4
+
+# Run with multiple IP addresses
+python ping_tool.py
+Enter IP addresses to ping (comma-separated, default: 8.8.8.8): 8.8.8.8,1.1.1.1
+Enter the number of packets to send (default: 1): 2

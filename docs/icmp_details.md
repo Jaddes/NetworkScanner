@@ -9,21 +9,20 @@ The **Internet Control Message Protocol (ICMP)** is a fundamental protocol in th
 ### Use Cases
 
 1. **Diagnostics**:
-   - `Ping`: Check the availability and responsiveness of a device on the network.
-   - `Traceroute`: Trace the path packets take through a network.
+   - **Ping**: Used to check the availability and responsiveness of a device on the network.
+   - **Traceroute**: Tracks the path packets take through the network to reach their destination.
 
 2. **Error Notifications**:
-   - **Destination Unreachable**: Alerts when a packet cannot reach its intended destination.
-   - **Time Exceeded**: Indicates that a packet's TTL (Time-To-Live) expired before reaching the destination.
+   - **Destination Unreachable**: Indicates when a packet cannot reach its intended destination.
+   - **Time Exceeded**: Indicates when a packet's TTL (Time-To-Live) value has expired before reaching its destination.
 
 ### How Ping Works
 
 1. A **client** sends an **ICMP Echo Request** (Type 8, Code 0) to the target device.
-2. The **target device**, if reachable, replies with an **ICMP Echo Reply** (Type 0, Code 0).
-3. The client measures:
-   - **Latency (RTT)**: The round-trip time for the packet to travel to the target and back.
-   - **Packet Loss**: The percentage of requests that fail to receive replies.
-
+2. The **target device**, if reachable, responds with an **ICMP Echo Reply** (Type 0, Code 0).
+3. The client calculates:
+   - **Latency (RTT)**: The time for the packet to travel to the target and back.
+   - **Packet Loss**: The percentage of packets that failed to receive a response.
 ### ICMP Packet Structure
 
 | Field           | Description                                                 |
@@ -76,11 +75,14 @@ The tool executes the `ping` command using Python's `subprocess` module. This en
 - Secure execution of system commands.
 - Capturing and analyzing the output of the `ping` command for better error handling.
 - Automatic detection of the operating system to adjust command parameters (`-c` for Linux/Unix and `-n` for Windows).
-- **User Input Feature**:
-  - The tool prompts the user to enter an IP address to ping.
-  - If no input is provided, the tool defaults to `8.8.8.8`.
-- **Enhanced Output**:
-  - Provides detailed statistics, including RTT, Packet Loss, Transmitted/Received packets, and TTL.
+
+### **Enhanced Features**
+- **Ping Multiple IPs**:
+- Users can input multiple IP addresses as a comma-separated list.
+- Each IP address is pinged sequentially, and detailed statistics are displayed for each.
+- **User Input**:
+- Prompts the user to enter an IP address (or addresses) and the number of packets to send.
+- Defaults to `8.8.8.8` and 1 packet if no input is provided.
 
 
 
