@@ -13,13 +13,17 @@
   - **Ping Multiple IPs**: Allows the user to ping multiple IP addresses entered as a comma-separated list, with parallel execution.
   - Improved execution using `subprocess` for secure and efficient command handling.
   - **User Input Support**: Enables input of a single IP address, multiple IPs, or default values.
+  - **Range Ping**
+    - Supports pinging multiple IP adresses within a specified range (e.g., 192.168.1.1 to 192.168.1.10)
+    - Automatically generates all IP addresses in the specified range and pings them sequentially or in parallel
+    - Provides detailed results for each IP in the range
 
 - **Cross-Platform Support**:
   - Compatible with Linux/Unix and Windows systems.
   - Automatically adjusts the `ping` command parameters based on the operating system.
 
 - **Logging Results**:
-  - Saves detailed results for each ping (including errors) to a log file with timestamps.
+  - Saves detailed results for each ping (including errors) to a log file with timestamps.**
 
 - **Detailed Output**:
   - Displays comprehensive statistics for each ping, including:
@@ -48,3 +52,4 @@ Enter the number of packets to send (default: 1): 4
 python ping_tool.py
 Enter IP addresses to ping (comma-separated, default: 8.8.8.8): 8.8.8.8,1.1.1.1
 Enter the number of packets to send (default: 1): 2
+**

@@ -88,7 +88,7 @@ The tool executes the `ping` command using Python's `subprocess` module. This en
 - Significantly reduces the time required for scanning large networks.
 
 - **Logging**:
-- Results are saved in a log file with timestamps for each pinged IP address.
+- Results are saved in a log file with timestamps for each pinged IP address. 
 
 
 For more information, see the [README.md](README.md) file.

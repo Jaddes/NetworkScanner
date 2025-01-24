@@ -116,20 +116,18 @@ def display_results_in_table(results):
     headers = ["IP Address", "RTT (Min/Avg/Max)", "Packet Loss", "TTL"]
     table = []
     for res in results:
-        if "error" in res:
-            table.append([res["ip"], "N/A", "N/A", "N/A"])
-        else:
-            table.append([
-                res["ip"],
-                f"{res['rtt_min']} / {res['rtt_avg']} / {res['rtt_max']}",
-                res["packet_loss"],
-                res["ttl_final"]
-            ])
+        table.append([
+            res.get("ip", "Unknown"),
+            f"{res.get('rtt_min', 'N/A')} / {res.get('rtt_avg', 'N/A')} / {res.get('rtt_max', 'N/A')}",
+            res.get("packet_loss", "N/A"),
+            res.get("ttl_final", "N/A")
+        ])
     
     if table:
         print(tabulate(table, headers=headers, tablefmt="grid"))
     else:
         print("No results to display.")
+
 
 
 def generate_ip_range(start_ip, end_ip):
@@ -143,9 +141,15 @@ def generate_ip_range(start_ip, end_ip):
     Returns:
         list: A list of IP addresses within the range.
     """
-    start = ipaddress.IPv4Address(start_ip)
-    end = ipaddress.IPv4Address(end_ip)
-    return [str(ip) for ip in range(int(start), int(end) + 1)]
+    try:
+        start = ipaddress.IPv4Address(start_ip)
+        end = ipaddress.IPv4Address(end_ip)
+        if start > end:
+            raise ValueError("Start IP must be less than or equal to End IP")
+        return [str(ipaddress.IPv4Address(ip)) for ip in range(int(start), int(end) + 1)]
+    except ValueError as e:
+        print(f"Invalid IP range: {e}")
+        return []
 
 
 if __name__ == "__main__":

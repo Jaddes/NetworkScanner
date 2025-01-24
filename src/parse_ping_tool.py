@@ -24,7 +24,7 @@ def parse_ping_output(output):
     if rtt_values:
         rtt_values = [float(rtt) for rtt in rtt_values if float(rtt) > 0]  # Fillter the null values
         if rtt_values:
-            result['rtt_min'] = f"{min(rtt_values):.2f} ms"
+            result['rtt_min'] = f"{min(rtt_values):.2f} ms" if rtt_values else "N/A"
             result['rtt_avg'] = f"{sum(rtt_values)/len(rtt_values):.2f} ms"
             result['rtt_max'] = f"{max(rtt_values):.2f} ms"
             result['rtt_all'] = [f"{rtt:.2f} ms" for rtt in rtt_values]
