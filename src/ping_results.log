@@ -11,3 +11,162 @@ Results for 8.8.8.8:
   - ttl_info: Reached destination successfully
   - ip: 8.8.8.8
 
+
+
+Timestamp: 2025-01-23 05:54:05
+Results for 3232235777:
+  - rtt_min: 2.22 ms
+  - rtt_avg: 2.43 ms
+  - rtt_max: 2.64 ms
+  - rtt_all: ['2.22 ms', '2.64 ms']
+  - packet_loss: 0%
+  - packets_transmitted: 2
+  - packets_received: 2
+  - ttl_final: 255
+  - ttl_info: Reached destination successfully
+  - ip: 3232235777
+
+Timestamp: 2025-01-23 05:54:15
+Results for 3232235778:
+  - rtt_min: 1937397901471331.00 ms
+  - rtt_avg: 1937397901471331.00 ms
+  - rtt_max: 1937397901471331.00 ms
+  - rtt_all: ['1937397901471331.00 ms', '1937397901471331.00 ms']
+  - packet_loss: 50%
+  - packets_transmitted: 2
+  - packets_received: 1
+  - ttl_final: 255
+  - ttl_info: Reached destination successfully
+  - ip: 3232235778
+
+Timestamp: 2025-01-23 05:54:15
+Results for 3232235779:
+  - rtt_min: 1937397901471331.00 ms
+  - rtt_avg: 1937397901471331.00 ms
+  - rtt_max: 1937397901471331.00 ms
+  - rtt_all: ['1937397901471331.00 ms', '1937397901471331.00 ms']
+  - packet_loss: 50%
+  - packets_transmitted: 2
+  - packets_received: 1
+  - ttl_final: 255
+  - ttl_info: Reached destination successfully
+  - ip: 3232235779
+
+Timestamp: 2025-01-23 05:57:29
+Results for 192.168.1.1:
+  - rtt_min: 4.94 ms
+  - rtt_avg: 4.94 ms
+  - rtt_max: 4.94 ms
+  - rtt_all: ['4.94 ms']
+  - packet_loss: 0%
+  - packets_transmitted: 1
+  - packets_received: 1
+  - ttl_final: 255
+  - ttl_info: Reached destination successfully
+  - ip: 192.168.1.1
+
+Timestamp: 2025-01-23 06:13:04
+Results for 3232235777:
+  - rtt_min: 4.15 ms
+  - rtt_avg: 4.75 ms
+  - rtt_max: 5.35 ms
+  - rtt_all: ['4.15 ms', '5.35 ms']
+  - packet_loss: 0%
+  - packets_transmitted: 2
+  - packets_received: 2
+  - ttl_final: 255
+  - ttl_info: Reached destination successfully
+  - ip: 3232235777
+
+Timestamp: 2025-01-23 06:13:14
+Results for 3232235778:
+  - rtt_min: 0.00 ms
+  - rtt_avg: 0.00 ms
+  - rtt_max: 0.00 ms
+  - rtt_all: ['0.00 ms', '0.00 ms']
+  - packet_loss: 50%
+  - packets_transmitted: 2
+  - packets_received: 1
+  - ttl_final: 255
+  - ttl_info: Reached destination successfully
+  - ip: 3232235778
+
+Timestamp: 2025-01-23 06:14:25
+Results for 3232235777:
+  - rtt_min: 1.81 ms
+  - rtt_avg: 2.46 ms
+  - rtt_max: 3.11 ms
+  - rtt_all: ['3.11 ms', '1.81 ms']
+  - packet_loss: 0%
+  - packets_transmitted: 2
+  - packets_received: 2
+  - ttl_final: 255
+  - ttl_info: Reached destination successfully
+  - ip: 3232235777
+
+Timestamp: 2025-01-23 06:14:35
+Results for 3232235778:
+  - rtt_min: 0.00 ms
+  - rtt_avg: 0.00 ms
+  - rtt_max: 0.00 ms
+  - rtt_all: ['0.00 ms', '0.00 ms']
+  - packet_loss: 50%
+  - packets_transmitted: 2
+  - packets_received: 1
+  - ttl_final: 255
+  - ttl_info: Reached destination successfully
+  - ip: 3232235778
+
+Timestamp: 2025-01-23 06:38:14
+Results for 3232235777:
+  - rtt_min: 10.50 ms
+  - rtt_avg: 10.50 ms
+  - rtt_max: 10.50 ms
+  - rtt_all: ['10.50 ms']
+  - packet_loss: 0%
+  - packets_transmitted: 1
+  - packets_received: 1
+  - ttl_final: 255
+  - ttl_info: Reached destination successfully
+  - ip: 3232235777
+
+Timestamp: 2025-01-23 06:38:15
+Results for 3232235778:
+  - packet_loss: 0%
+  - packets_transmitted: 1
+  - packets_received: 1
+  - ttl_final: 255
+  - ttl_info: Reached destination successfully
+  - ip: 3232235778
+
+Timestamp: 2025-01-23 06:38:36
+Results for 192.168.1.2:
+  - packet_loss: 0%
+  - packets_transmitted: 1
+  - packets_received: 1
+  - ttl_final: 255
+  - ttl_info: Reached destination successfully
+  - ip: 192.168.1.2
+
+Timestamp: 2025-01-23 06:39:09
+Results for 8.8.8.9:
+  - Error: PING 8.8.8.9 (8.8.8.9) 56(84) bytes of data.
+
+--- 8.8.8.9 ping statistics ---
+1 packets transmitted, 0 received, 100% packet loss, time 0ms
+
+
+
+Timestamp: 2025-01-23 06:39:26
+Results for 8.8.8.8:
+  - rtt_min: 11.10 ms
+  - rtt_avg: 11.10 ms
+  - rtt_max: 11.10 ms
+  - rtt_all: ['11.10 ms']
+  - packet_loss: 0%
+  - packets_transmitted: 1
+  - packets_received: 1
+  - ttl_final: 255
+  - ttl_info: Reached destination successfully
+  - ip: 8.8.8.8
+

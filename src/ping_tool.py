@@ -1,7 +1,8 @@
 import platform # Modul for detection Operating System
 import subprocess # Modul for executing the system commands
 import threading # Parallel execution module
-import datetime 
+import datetime # Module for timestamp in logs
+import ipaddress # Module for generating IP address ranges
 from tabulate import tabulate
 from parse_ping_tool import parse_ping_output # Implementing function for parsing
 
@@ -47,8 +48,7 @@ def ping(ip_address, count):
 
         return stats
     except subprocess.CalledProcessError as e:
-        print(f"{ip_address} is not available")
-        print(f"Error: {e.output}")
+        return {"ip": ip_address, "error": e.output}
 
 def ping_multiple_ips_parallel(ip_list, count=1):
     """
@@ -65,7 +65,14 @@ def ping_multiple_ips_parallel(ip_list, count=1):
     results = []
 
     def ping_and_log(ip):
-        stats = ping(ip.strip(), count)
+        # Check the validity of the IP address
+        ip = str(ip.strip())
+        try:
+            stats = ping(ip, count)
+            if stats is None:
+                stats = {"ip": ip, "error": "Ping command failed"}
+        except Exception as e:
+            stats = {"ip": ip, "error": str(e)}
         stats["ip"] = ip
         log_results(ip, stats)
         results.append(stats)
@@ -106,15 +113,6 @@ def log_results(ip_address, stats, filename="ping_results.log"):
         log_file.write("\n")
 
 def display_results_in_table(results):
-    """
-    Displays ping results in a table format.
-
-    Args:
-        results (list): List of dictionaries containing ping results.
-
-    Returns:
-        None
-    """
     headers = ["IP Address", "RTT (Min/Avg/Max)", "Packet Loss", "TTL"]
     table = []
     for res in results:
@@ -127,18 +125,44 @@ def display_results_in_table(results):
                 res["packet_loss"],
                 res["ttl_final"]
             ])
-    print(tabulate(table, headers=headers, tablefmt="grid"))
-
     
+    if table:
+        print(tabulate(table, headers=headers, tablefmt="grid"))
+    else:
+        print("No results to display.")
+
+
+def generate_ip_range(start_ip, end_ip):
+    """
+    Generates a list of individual IP addresses within a given range.
+
+    Args:
+        start_ip (str): The starting IP address.
+        end_ip (str): The ending IP address.
+
+    Returns:
+        list: A list of IP addresses within the range.
+    """
+    start = ipaddress.IPv4Address(start_ip)
+    end = ipaddress.IPv4Address(end_ip)
+    return [str(ip) for ip in range(int(start), int(end) + 1)]
+
 
 if __name__ == "__main__":
-    # User input for IP addresses
-    user_input_ips = input("Enter IP addresses to ping (comma-separated, default: 8.8.8.8): ").strip()
-    ip_addresses = user_input_ips.split(',') if user_input_ips else ["8.8.8.8"]
+    # User input for pinging range or multiple IPs
+    mode = input("Enter mode (single, multiple, range): ").strip().lower()
 
-    # User input for number of packets
+    if mode == "range":
+        start_ip = input("Enter the starting IP address: ").strip()
+        end_ip = input("Enter the ending IP address: ").strip()
+        ip_list = generate_ip_range(start_ip, end_ip)
+    elif mode == "multiple":
+        user_input_ips = input("Enter IP addresses to ping (comma-separated): ").strip()
+        ip_list = user_input_ips.split(',')
+    else:  # Default to single IP
+        ip_list = [input("Enter an IP address to ping (default: 8.8.8.8): ").strip() or "8.8.8.8"]
+
     user_input_count = input("Enter the number of packets to send (default: 1): ").strip()
-    count = int(user_input_count) if user_input_count.isdigit() else 1  
+    count = int(user_input_count) if user_input_count.isdigit() else 1
 
-    # Ping one or multiple IP addresses
-    ping_multiple_ips_parallel(ip_addresses, count)
+    ping_multiple_ips_parallel(ip_list, count)

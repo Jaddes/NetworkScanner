@@ -22,13 +22,12 @@ def parse_ping_output(output):
     # Parse RTT for each packet
     rtt_values = re.findall(r'time=(\d+\.?\d*) ms', output)
     if rtt_values:
-        rtt_values = [float(rtt) for rtt in rtt_values]  # Convert to float for calculations
-        result['rtt_min'] = f"{min(rtt_values):.2f} ms"
-        result['rtt_avg'] = f"{sum(rtt_values)/len(rtt_values):.2f} ms"
-        result['rtt_max'] = f"{max(rtt_values):.2f} ms"
-        result['rtt_all'] = [f"{rtt:.2f} ms" for rtt in rtt_values]  # RTT for each packet
-
-
+        rtt_values = [float(rtt) for rtt in rtt_values if float(rtt) > 0]  # Fillter the null values
+        if rtt_values:
+            result['rtt_min'] = f"{min(rtt_values):.2f} ms"
+            result['rtt_avg'] = f"{sum(rtt_values)/len(rtt_values):.2f} ms"
+            result['rtt_max'] = f"{max(rtt_values):.2f} ms"
+            result['rtt_all'] = [f"{rtt:.2f} ms" for rtt in rtt_values]
     # Parse packet loss
     match = re.search(r'(\d+)% packet loss', output)
     if match:
