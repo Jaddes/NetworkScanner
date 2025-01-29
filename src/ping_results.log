@@ -318,3 +318,107 @@ Results for 192.168.1.1:
   - ttl_info: Reached destination successfully
   - ip: 192.168.1.1
 
+Timestamp: 2025-01-27 20:52:01
+Results for 8.8.8.8:
+  - rtt_min: 9.20 ms
+  - rtt_avg: 10.07 ms
+  - rtt_max: 11.30 ms
+  - rtt_all: ['9.20 ms', '9.72 ms', '11.30 ms']
+  - packet_loss: 0%
+  - packets_transmitted: 3
+  - packets_received: 3
+  - ttl_final: 59
+  - ttl_info: TTL indicates 5 hops passed
+  - ip: 8.8.8.8
+
+Timestamp: 2025-01-27 21:01:14
+Results for 8.8.8.8:
+  - rtt_min: 9.96 ms
+  - rtt_avg: 9.96 ms
+  - rtt_max: 9.96 ms
+  - rtt_all: ['9.96 ms']
+  - packet_loss: 0%
+  - packets_transmitted: 1
+  - packets_received: 1
+  - ttl_final: 59
+  - ttl_info: TTL indicates 5 hops passed
+  - ip: 8.8.8.8
+
+Timestamp: 2025-01-27 21:04:38
+Results for 8.8.8.8:
+  - rtt_min: 10.80 ms
+  - rtt_avg: 10.80 ms
+  - rtt_max: 10.80 ms
+  - rtt_all: ['10.80 ms']
+  - packet_loss: 0%
+  - packets_transmitted: 1
+  - packets_received: 1
+  - ttl_final: 59
+  - ttl_info: TTL indicates 5 hops passed
+  - ip: 8.8.8.8
+
+Timestamp: 2025-01-27 21:04:43
+Results for 8.8.8.8:
+  - rtt_min: 10.80 ms
+  - rtt_avg: 10.80 ms
+  - rtt_max: 10.80 ms
+  - rtt_all: ['10.80 ms']
+  - packet_loss: 0%
+  - packets_transmitted: 1
+  - packets_received: 1
+  - ttl_final: 59
+  - ttl_info: TTL indicates 5 hops passed
+  - ip: 8.8.8.8
+
+Timestamp: 2025-01-27 21:04:44
+Results for 8.8.8.8:
+  - rtt_min: 9.12 ms
+  - rtt_avg: 9.12 ms
+  - rtt_max: 9.12 ms
+  - rtt_all: ['9.12 ms']
+  - packet_loss: 0%
+  - packets_transmitted: 1
+  - packets_received: 1
+  - ttl_final: 59
+  - ttl_info: TTL indicates 5 hops passed
+  - ip: 8.8.8.8
+
+Timestamp: 2025-01-27 21:04:45
+Results for 8.8.8.8:
+  - rtt_min: 11.20 ms
+  - rtt_avg: 11.20 ms
+  - rtt_max: 11.20 ms
+  - rtt_all: ['11.20 ms']
+  - packet_loss: 0%
+  - packets_transmitted: 1
+  - packets_received: 1
+  - ttl_final: 59
+  - ttl_info: TTL indicates 5 hops passed
+  - ip: 8.8.8.8
+
+Timestamp: 2025-01-27 21:04:46
+Results for 8.8.8.8:
+  - rtt_min: 13.30 ms
+  - rtt_avg: 13.30 ms
+  - rtt_max: 13.30 ms
+  - rtt_all: ['13.30 ms']
+  - packet_loss: 0%
+  - packets_transmitted: 1
+  - packets_received: 1
+  - ttl_final: 59
+  - ttl_info: TTL indicates 5 hops passed
+  - ip: 8.8.8.8
+
+Timestamp: 2025-01-27 21:13:44
+Results for 8.8.8.8:
+  - rtt_min: 10.70 ms
+  - rtt_avg: 10.70 ms
+  - rtt_max: 10.70 ms
+  - rtt_all: ['10.70 ms']
+  - packet_loss: 0%
+  - packets_transmitted: 1
+  - packets_received: 1
+  - ttl_final: 59
+  - ttl_info: TTL indicates 5 hops passed
+  - ip: 8.8.8.8
+

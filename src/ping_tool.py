@@ -37,14 +37,14 @@ def ping(ip_address, count):
         # Parse the output for useful information
         stats = parse_ping_output(output)
 
-        print(f"\nPing Results for {ip_address}:")
-        print(f"  - RTT (Min/Avg/Max): {stats.get('rtt_min', 'N/A')} / {stats.get('rtt_avg', 'N/A')} / {stats.get('rtt_max', 'N/A')}")
-        print(f"  - RTT Values (All): {', '.join(stats.get('rtt_all', []))}")
-        print(f"  - Packet Loss: {stats.get('packet_loss', 'N/A')}")
-        print(f"  - Packets Transmitted: {stats.get('packets_transmitted', 'N/A')}")
-        print(f"  - Packets Received: {stats.get('packets_received', 'N/A')}")
-        print(f"  - TTL (Final): {stats.get('ttl_final', 'N/A')}")
-        print(f"  - Additional TTL Info: {stats.get('ttl_info', 'None')}")
+        # print(f"\nPing Results for {ip_address}:")
+        # print(f"  - RTT (Min/Avg/Max): {stats.get('rtt_min', 'N/A')} / {stats.get('rtt_avg', 'N/A')} / {stats.get('rtt_max', 'N/A')}")
+        # print(f"  - RTT Values (All): {', '.join(stats.get('rtt_all', []))}")
+        # print(f"  - Packet Loss: {stats.get('packet_loss', 'N/A')}")
+        # print(f"  - Packets Transmitted: {stats.get('packets_transmitted', 'N/A')}")
+        # print(f"  - Packets Received: {stats.get('packets_received', 'N/A')}")
+        # print(f"  - TTL (Final): {stats.get('ttl_final', 'N/A')}")
+        # print(f"  - Additional TTL Info: {stats.get('ttl_info', 'None')}")
 
         return stats
     except subprocess.CalledProcessError as e:
