@@ -65,9 +65,21 @@ def execute_ping():
     result_text.config(state="disabled")  # Disable editing
     update_text_widget_size(result_text)
 
-    if "error" not in result:
+    # Reset RTT vrednosti i Packet Loss pre osvežavanja grafikona
+    if "error" in result or not result.get('rtt_all'):
+        rtt_values = []  # Postavljamo prazan RTT niz
+        packet_loss = 100  # Postavljamo packet loss na 100% jer ping nije uspeo
+    else:
         rtt_values = [float(rtt.replace(" ms", "")) for rtt in result.get('rtt_all', [])]
-        packet_loss = int(result.get("packet_loss", "%0").replace("%", ""))
+        packet_loss = int(result.get("packet_loss", "0").replace("%", ""))
+
+    print(f"Updated RTT values: {rtt_values}")  # Debug print
+    print(f"Updated Packet Loss: {packet_loss}%")  # Debug print
+
+    # Ažuriranje grafova sa novim podacima
+    show_rtt_graph(rtt_values)
+    show_packet_loss_graph(packet_loss)
+    
 
     
 def show_rtt_graph(rtt_values):
@@ -97,23 +109,41 @@ def show_rtt_graph(rtt_values):
 
 def show_packet_loss_graph(packet_loss):
     """
-    Generates Packet Loss graph and embeds it into Tkinter GUI.
+    Generates a horizontal Packet Loss graph and embeds it into Tkinter GUI.
     """
     # Clear previous graphs
     for widget in graph_frame.winfo_children():
         widget.destroy()
 
-    fig, ax = plt.subplots(figsize=(5, 3))
+    fig, ax = plt.subplots(figsize=(5, 1.5)) 
     plt.style.use("cyberpunk")
-    ax.bar(["Packet Loss"], [packet_loss], color='red')
-    ax.set_title("Packet Loss Percentage", color="white")
-    ax.set_ylabel("Loss (%)", color="white")
+
+    # Horisontal track for Packet Loss
+    bars = ax.barh(["Packet Loss"], [packet_loss], color='red', height=0.4, align='center')
+
+    ax.set_title("Packet Loss Percentage", color="white", pad=10)
+    ax.set_xlabel("Loss (%)", color="white")  
+    ax.set_xlim(0, 100)  
     ax.set_facecolor("#1e1e2f")
     fig.patch.set_facecolor('#1e1e2f')
+
+    # Centralisation the label on the Y axis
+    ax.set_yticks([0])  # Samo jedan label na y-osi
+    ax.set_yticklabels(["Packet Loss"], ha="center", va="center", color="white")
+
+    # Centralisation values on the bar, dynamically shifting based on the width of the bar
+    for bar in bars:
+        bar_width = bar.get_width()
+        text_x = bar_width + 5 if bar_width < 10 else bar_width / 2  # Ako je mali gubitak, pomeri desno
+        text_color = "white" if bar_width > 50 else "black"  # Kontrast teksta na crvenom baru
+
+        ax.text(text_x, bar.get_y() + bar.get_height() / 2,
+                f"{packet_loss}%", ha='center', va='center', color=text_color, fontsize=10, fontweight='bold')
 
     canvas = FigureCanvasTkAgg(fig, master=graph_frame)
     canvas.draw()
     canvas.get_tk_widget().pack()
+
 
 
 # Creating the main windows
@@ -180,6 +210,7 @@ rtt_button.grid(row=0, column=0, padx=5)
 
 packet_loss_button = ttk.Button(graph_button_frame, text="Packet Loss Percentage", command=lambda: show_packet_loss_graph(packet_loss))
 packet_loss_button.grid(row=0, column=1, padx=5)
+
 
 # Graph frame
 graph_frame = ttk.Frame(right_frame)

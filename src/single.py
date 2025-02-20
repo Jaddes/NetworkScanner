@@ -9,30 +9,19 @@ def ping(ip_address, count=1):
 
     """
     
-    # Determing which OS is user using
-    # if '-n' then its a windows if not its linux so we use '-c'
-    # original command is supposed to go "ping -n/-c 1(number of packets) 8.8.8.8(the address)"
-    print(f"Received count in ping function: {count}")  # Debug
+
     param = '-n' if platform.system().lower() == 'windows' else '-c'
-
-
-    # We are combining all the parts of the command into one array
-    # 'ping -c 1 8.8.8.8 example
     command = ['ping', param, str(count), ip_address]
-    print(f"Command executed: {' '.join(command)}") # Debug Print Ping command
 
     try:
-        # We are executing the ping command and gonna capture the output
         output = subprocess.check_output(command, universal_newlines=True)
-        print(f"Ping output:\n{output}")  # Debug for the final destination of number of packets
-
-        # print(output) # Test the ou
         stats = parse(output)
         stats["ip"] = ip_address
         return stats
         
     except subprocess.CalledProcessError as e:
-        print(f"Ping was not successful for {ip_address}: {e.output}")
+        print(f"Ping was not successful for {ip_address}: {e.output}")  # Debug
+        return {"error": f"Host {ip_address} is unreachable", "packet_loss": "100%"} 
 
 def parse(output):
     """
@@ -65,7 +54,11 @@ def parse(output):
 
     # Parse for packet loss
     match = re.search(r'(\d+)% packet loss', output)
-    result['packet_loss'] = f"{match.group(1)}%"
+    if match:
+        result['packet_loss'] = f"{match.group(1)}%"
+    else:
+        result['packet_loss'] = "100%"  # Ako ping ne uspe, smatraj da je gubitak paketa 100%
+
 
     return result
 
