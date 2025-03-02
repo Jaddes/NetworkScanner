@@ -4,6 +4,8 @@ from single import  ping # Importing function from single.py
 import matplotlib.pyplot as plt 
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import mplcyberpunk
+import subprocess
+import platform
 
 def format_ping_result(result):
     """
@@ -18,6 +20,8 @@ def format_ping_result(result):
     RTT Min:      {result.get('rtt_min', 'N/A')}
     RTT Avg:      {result.get('rtt_avg', 'N/A')}
     RTT Max:      {result.get('rtt_max', 'N/A')}
+    Jitter:       {result.get('jitter', 'N/A')}
+    TTL:          {result.get('ttl', 'N/A')}
     Packet Loss:  {result.get('packet_loss', 'N/A')}
     --------------------------------
     """
@@ -33,7 +37,8 @@ def update_text_widget_size(text_widget):
 
 
 def execute_ping():
-    global rtt_values, packet_loss
+    global rtt_values, packet_loss, ttl_value
+
     ip_address = ip_entry.get().strip()
     packet_count = packet_count_combobox.get().strip()
 
@@ -65,21 +70,35 @@ def execute_ping():
     result_text.config(state="disabled")  # Disable editing
     update_text_widget_size(result_text)
 
-    # Reset RTT vrednosti i Packet Loss pre osvežavanja grafikona
+    # Reset RTT Values and Packet Loss Before Refreshing Charts
     if "error" in result or not result.get('rtt_all'):
-        rtt_values = []  # Postavljamo prazan RTT niz
-        packet_loss = 100  # Postavljamo packet loss na 100% jer ping nije uspeo
+        rtt_values = []  # We set an empty RTT string
+        packet_loss = 100  # We set the packet loss to 100% because ping failed
+        ttl_value = "N/A"  # If it fails, TTL is unknown
     else:
         rtt_values = [float(rtt.replace(" ms", "")) for rtt in result.get('rtt_all', [])]
         packet_loss = int(result.get("packet_loss", "0").replace("%", ""))
+        ttl_value = result.get("ttl", "N/A")
 
     print(f"Updated RTT values: {rtt_values}")  # Debug print
     print(f"Updated Packet Loss: {packet_loss}%")  # Debug print
+    print(f"Updated TTL: {ttl_value}")  # Debug print za TTLs
 
-    # Ažuriranje grafova sa novim podacima
+    # Updating graphs with new data
     show_rtt_graph(rtt_values)
     # show_packet_loss_graph(packet_loss)
     
+def run_traceroute(ip_address):
+    """
+    Runs traceroute (Linux/macOS) or tracert (Windows) and returns the results.
+    """
+    command = ["tracert", ip_address] if platform.system().lower() == "windows" else ["traceroute", ip_address]
+
+    try:
+        output = subprocess.check_output(command, universal_newlines=True, stderr=subprocess.STDOUT)
+        return output  # Vraća kompletan izlaz kao string
+    except subprocess.CalledProcessError as e:
+        return f"Traceroute failed: {e.output}"
 
     
 def show_rtt_graph(rtt_values):
@@ -145,6 +164,58 @@ def show_packet_loss_graph(packet_loss):
     canvas = FigureCanvasTkAgg(fig, master=graph_frame)
     canvas.draw()
     canvas.get_tk_widget().pack()
+
+def show_jitter_graph(rtt_values):
+    """
+    Generates a jitter graph and embeds it into Tkinter GUI.
+    """
+    # Clear previous graphs
+    for widget in graph_frame.winfo_children():
+        widget.destroy()
+
+    jitter_values = [abs(rtt_values[i] - rtt_values[i - 1]) for i in range(1, len(rtt_values))] if len(rtt_values) > 1 else [0]
+
+    fig, ax = plt.subplots(figsize=(5, 3))
+    plt.style.use("cyberpunk")
+    ax.plot(range(1, len(jitter_values) + 1), jitter_values, marker='o', linestyle='-', color='magenta')
+    ax.set_title("Jitter per Packet", color="white")
+    ax.set_xlabel("Packet Number", color="white")
+    ax.set_ylabel("Jitter (ms)", color="white")
+    ax.grid(True, color="#444444")
+    fig.patch.set_facecolor('#1e1e2f')
+    ax.set_facecolor("#1e1e2f")
+
+    plt.tight_layout()
+
+    canvas = FigureCanvasTkAgg(fig, master=graph_frame)
+    canvas.draw()
+    canvas.get_tk_widget().pack()
+
+def execute_traceroute():
+    """
+    Executes traceroute and displays the result in the GUI.
+    """
+    ip_address = ip_entry.get().strip()
+
+    if not ip_address:
+        result_text.config(state="normal")
+        result_text.delete(1.0, tk.END)
+        result_text.insert(tk.END, "Error: You must enter an IP address!")
+        result_text.config(state="disabled")
+        return
+
+    result_text.config(state="normal")
+    result_text.delete(1.0, tk.END)
+    result_text.insert(tk.END, f"Running traceroute to {ip_address}...\n")
+    result_text.config(state="disabled")
+    root.update_idletasks()  # Osvežava GUI tokom rada
+
+    traceroute_result = run_traceroute(ip_address)  # Poziva funkciju run_traceroute
+
+    result_text.config(state="normal")
+    result_text.insert(tk.END, f"\n{traceroute_result}")
+    result_text.config(state="disabled")
+
 
 
 
@@ -212,6 +283,12 @@ rtt_button.grid(row=0, column=0, padx=5)
 
 packet_loss_button = ttk.Button(graph_button_frame, text="Packet Loss Percentage", command=lambda: show_packet_loss_graph(packet_loss))
 packet_loss_button.grid(row=0, column=1, padx=5)
+
+jitter_button = ttk.Button(graph_button_frame, text="Jitter per Packet", command=lambda: show_jitter_graph(rtt_values))
+jitter_button.grid(row=0, column=2, padx=5)
+
+traceroute_button = ttk.Button(graph_button_frame, text="Traceroute", command=execute_traceroute)
+traceroute_button.grid(row=0, column=4, padx=5)
 
 
 # Graph frame

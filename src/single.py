@@ -46,6 +46,12 @@ def parse(output):
         result['rtt_max'] = f"{max(rtt_values):.2f} ms"
         result['rtt_all'] = [f"{rtt:.2f} ms" for rtt in rtt_values]
 
+        # Calculating  jitter (difference between adjacent RTT values)
+        if len(rtt_values) > 1:
+            jitter_values = [abs(rtt_values[i] - rtt_values[i - 1]) for i in range(1, len(rtt_values))]
+            result['jitter'] = f"{sum(jitter_values) / len(jitter_values):.2f} ms"
+        else:
+            result['jitter'] = "N/A"
     else:
         result['rtt_all'] = []
         result['rtt_min'] = "N/A"
@@ -59,6 +65,12 @@ def parse(output):
     else:
         result['packet_loss'] = "100%"  # Ako ping ne uspe, smatraj da je gubitak paketa 100%
 
+    # Parse for TTL  
+    ttl_match = re.search(r'TTL=(\d+)', output, re.IGNORECASE)
+    if ttl_match:
+        result['ttl'] = ttl_match.group(1)
+    else:
+        result['ttl'] = "N/A"
 
     return result
 
