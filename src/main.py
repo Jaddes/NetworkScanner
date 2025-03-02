@@ -78,7 +78,7 @@ def execute_ping():
 
     # Ažuriranje grafova sa novim podacima
     show_rtt_graph(rtt_values)
-    show_packet_loss_graph(packet_loss)
+    # show_packet_loss_graph(packet_loss)
     
 
     
@@ -129,16 +129,18 @@ def show_packet_loss_graph(packet_loss):
 
     # Centralisation the label on the Y axis
     ax.set_yticks([0])  # Samo jedan label na y-osi
-    ax.set_yticklabels(["Packet Loss"], ha="center", va="center", color="white")
+    ax.set_yticklabels(["Packet Loss"], ha="right", va="center", color="white")
 
     # Centralisation values on the bar, dynamically shifting based on the width of the bar
     for bar in bars:
         bar_width = bar.get_width()
-        text_x = bar_width + 5 if bar_width < 10 else bar_width / 2  # Ako je mali gubitak, pomeri desno
-        text_color = "white" if bar_width > 50 else "black"  # Kontrast teksta na crvenom baru
+        text_x = bar_width + 5 if bar_width < 10 else bar_width / 2
+        text_color = "white" if bar_width > 50 else "black"
 
         ax.text(text_x, bar.get_y() + bar.get_height() / 2,
                 f"{packet_loss}%", ha='center', va='center', color=text_color, fontsize=10, fontweight='bold')
+    
+    plt.tight_layout()
 
     canvas = FigureCanvasTkAgg(fig, master=graph_frame)
     canvas.draw()
